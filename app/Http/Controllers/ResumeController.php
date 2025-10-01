@@ -12,55 +12,57 @@ class ResumeController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth'), // same as $this->middleware('auth')
+            new Middleware('auth'),
         ];
     }
 
     public function show()
     {
-        // If not authenticated, redirect to login (extra safety)
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
         $name = "SOPHIA LOUREINE M. BULANADI";
-        $title = "Aspiring Marketing Assistant";
-        $profile = "Extremely motivated to constantly develop my skills and grow professionally...";
+        $title = "Software Engineer";
+        $profile = "Detail-oriented and innovative Software Engineer with 4+ years of experience in developing scalable web applications and enterprise solutions. Passionate about solving complex problems through clean code, agile methodologies, and modern technologies.";
 
         $contact = [
-            "📍 333, Purok 6, Brgy. Sampaloc, Talavera, Nueva Ecija",
-            "📞 09661565006",
-            "✉️ bulanadi.sophialoureine.m@gmail.com",
-            "🔗 linkedin.com/in/sophialoureine"
+            "🏠︎ 333, Purok 6, Brgy. Sampaloc, Talavera, Nueva Ecija",
+            "☎ 09661565006",
+            "✉︎ bulanadi.sophia@gmail.com",
+            "🔗 linkedin.com/in/sophialoureine",
+            "💻 github.com/loreyn-loreyn"
         ];
 
         $education = "Batangas State University  
-Bachelor of Science in Information Technology, 2026";
+Bachelor of Science in Computer Science, 2027 (Cum Laude)";
 
         $skills = [
-            "Exceptional communication and networking skills",
-            "Successful working in a team environment, as well as independently",
-            "Ability to work under pressure and multi-task",
-            "Ability to follow instructions and deliver quality results"
+            "Languages: C, Java, HTML, C#, PHP, Dart",
+            "Web: Laravel, Flutter",
+            "Databases: MySQL, PostgreSQL",
+            "Cloud & Tools: Git",
+            "Soft Skills: Agile/Scrum, Problem-Solving, Collaboration"
         ];
 
         $experience = [
             [
-                "company" => "Freelance, Digital Marketing Assistant",
-                "date" => "2024 - Present",
+                "company" => "Globe Telecom, Makati City",
+                "date" => "June 2029 - Present",
                 "tasks" => [
-                    "Assisted in managing social media campaigns and content planning",
-                    "Analyzed performance metrics to optimize marketing strategies",
-                    "Created promotional materials and visuals for online platforms"
+                    "Developed and maintained scalable web apps with Laravel & React.js, serving 1M+ customers",
+                    "Integrated secure payment gateway APIs, reducing transaction errors by 30%",
+                    "Led a team of 5 junior developers in coding best practices and Git workflows",
+                    "Deployed applications on AWS with 99.9% uptime"
                 ]
             ],
             [
-                "company" => "Talavera Senior High School, Student Intern",
-                "date" => "2022 - 2023",
+                "company" => "Accenture Philippines, Taguig City",
+                "date" => "July 2027 - May 2029",
                 "tasks" => [
-                    "Helped organize school events and promotional activities",
-                    "Worked with faculty staff on creative materials",
-                    "Assisted in documentation and communications"
+                    "Built responsive dashboards with Vue.js and Laravel, enhancing reporting efficiency",
+                    "Automated unit testing with QA team, reducing bugs by 25%",
+                    "Wrote reusable components and documentation adopted company-wide"
                 ]
             ]
         ];
