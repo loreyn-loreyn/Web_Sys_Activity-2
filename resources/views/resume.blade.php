@@ -1,98 +1,12 @@
 <!DOCTYPE html>
-<html>
-
-<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume - {{ $name }}</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background: #eef2f5;
-            display: flex;
-            justify-content: center;
-            overflow-y: auto;
-        }
-        .resume {
-            width: 216mm;
-            background: #fff;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            display: flex;
-            flex-direction: column;
-            margin: 60px 0 20px; /* leave space for logout button */
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .header {
-            background: linear-gradient(135deg,rgb(167, 204, 233),rgb(150, 187, 226));
-            color: #fff;
-            padding: 25px 30px;
-            display: flex;
-            align-items: center;
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-        .header img {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 20px;
-            border: 3px solid #fff;
-        }
-        .header h1 { margin: 0; font-size: 28px; font-weight: bold; }
-        .header p { margin: 5px 0 0; font-size: 14px; letter-spacing: 1px; }
+    <script src="https://cdn.tailwindcss.com"></script>
 
-        .content { display: flex; flex: 1; flex-wrap: wrap; }
-        .left, .right { padding: 30px; box-sizing: border-box; }
-        .left { width: 35%; background: #f9fbfd; border-right: 1px solid #e0e0e0; }
-        .right { width: 65%; }
-
-        h2 {
-            font-size: 15px;
-            letter-spacing: 2px;
-            color: #333;
-            margin: 20px 0 10px;
-            border-bottom: 2px solidrgb(89, 167, 227);
-            padding-bottom: 5px;
-        }
-        p, li { font-size: 14px; color: #444; line-height: 1.6; }
-        ul { padding-left: 20px; }
-
-        /* Collapsible sections */
-        .collapsible {
-            cursor: pointer;
-            background: #f0f4f8;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-            transition: background 0.3s ease;
-        }
-        .collapsible:hover { background: #dce3eb; }
-        .collapsible-content {
-            display: none;
-            margin-top: 10px;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .contact-item { margin: 5px 0; }
-        .contact-item a {
-            color: #2d3e50;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .contact-item a:hover { color: #4a90e2; }
-
-        @page { size: 216mm 279mm; margin: 20mm; }
+    <style> 
         @media print {
             body { background: none; }
             .resume { box-shadow: none; margin: 0; width: 100%; }
@@ -101,7 +15,6 @@
             .collapsible-content { display: block !important; }
         }
 
-        /* Login success popup message*/
         .popup {
             position: fixed;
             top: 50%;
@@ -119,104 +32,194 @@
             transition: opacity 0.5s ease;
             text-align: center;
             min-width: 250px;
-            color: rgb(255, 255, 255); /* ✅ text color changed to white */
+            color: rgb(255, 255, 255);
         }
 
+        /* Collapsible button style */
+        .collapsible {
+            background: #e5f3e5;
+            color: #065f46;
+            cursor: pointer;
+            padding: 10px 15px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
 
+        .collapsible:hover {
+            background:rgb(255, 255, 255);
+        }
+
+        .collapsible:after {
+            content: '\002B'; /* plus sign */
+            float: right;
+        }
+
+        .collapsible.active:after {
+            content: "\2212"; /* minus sign */
+        }
+
+        .collapsible-content {
+            display: none;
+            overflow: hidden;
+            padding: 10px 15px;
+            background: #f9faf9;
+            border-left: 3px solid #10b981;
+            border-radius: 0 0 8px 8px;
+        }
     </style>
 </head>
-<body>
-        <!-- Logout button component -->
+<body class="bg-gray-100 min-h-screen py-10 px-6">
+
+    <!-- Logout button component -->
     @include('component.logout')
 
     @if (session('success'))
-        <div id="popup-message" class="popup {{ session('success')}}">
-            {{session('success') }}
+        <div id="popup-message" class="popup">
+            {{ session('success') }}
         </div>
     @endif
 
+    <div class="max-w-5xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden relative resume">
 
-    <div class="resume">
-        <div class="header">
-            <div class="header-left">
-                <img src="{{ asset('images/my_photo.jpg') }}" alt="Profile Photo">
-                <div>
-                    <h1>{{ $name }}</h1>
-                    <p>{{ $title }}</p>
-                </div>
-            </div>
+        {{-- Profile Image --}}
+        <div class="absolute top-2.5 right-7">
+            <img src="{{ asset('images/my_photo.jpg') }}" 
+            alt="Profile Photo"
+            class="w-28 h-28 rounded-full border-4 border-white shadow-lg object-cover">
         </div>
 
-        <div class="content">
-            <div class="left">
-                <h2>PERSONAL PROFILE</h2>
-                <p>{{ $profile }}</p>
+        {{-- Header --}}
+        <div class="bg-gradient-to-r from-green-500 to-green-700 text-white p-8">
+            <h1 class="text-4xl font-bold">{{ $name }}</h1>
+            <p class="text-lg">{{ $title }}</p>
+        </div>
 
-                <h2>CONTACT</h2>
-                @foreach($contact as $c)
-                    <p class="contact-item"><a href="mailto:{{ $c }}">{{ $c }}</a></p>
-                @endforeach
-
-                <h2>EDUCATION</h2>
-                <p>{!! nl2br(e($education)) !!}</p>
-            </div>
-
-            <div class="right">
-                <h2>SKILLS</h2>
-                <div class="collapsible">Show / Hide Skills</div>
-                <div class="collapsible-content">
-                    <ul>
-                        @foreach($skills as $s)
-                            <li>{{ $s }}</li>
-                        @endforeach
+        {{-- Profile + Contact --}}
+        <div class="grid md:grid-cols-3 gap-6 p-8">
+            <div class="col-span-1 space-y-6">
+                {{-- Contact --}}
+                <div class="bg-gray-50 shadow rounded-xl p-5">
+                    <h2 class="text-xl font-semibold text-green-700 mb-3">Contact</h2>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Brgy.+Sampaloc,+Talavera,+Nueva+Ecija"
+                               target="_blank" class="hover:text-green-600 transition">
+                                🏠︎ Brgy. Sampaloc, Talavera, Nueva Ecija
+                            </a>
+                        </li>
+                        <li>
+                            <button onclick="copyPhone('09661565006')" class="hover:text-green-600 transition cursor-pointer">
+                                ☎ 09661565006
+                            </button>
+                        </li>
+                        <li>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bulanadi.sophia@gmail.com"
+                               target="_blank" class="hover:text-green-600 transition">
+                                ✉︎ bulanadi.sophia@gmail.com
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://linkedin.com/in/sophialoureine" 
+                               target="_blank" class="hover:text-green-600 transition">
+                                🔗 linkedin.com/in/sophialoureine
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/loreyn-loreyn" 
+                               target="_blank" class="hover:text-green-600 transition">
+                                💻 github.com/loreyn-loreyn
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
-                <h2>WORK EXPERIENCE</h2>
-                <div class="collapsible">Show / Hide Experience</div>
-                <div class="collapsible-content">
-                    @foreach($experience as $exp)
-                        <p><strong>{{ $exp['company'] }}</strong><br>
-                        <em>{{ $exp['date'] }}</em></p>
-                        <ul>
-                            @foreach($exp['tasks'] as $t)
-                                <li>{{ $t }}</li>
-                            @endforeach
-                        </ul>
-                    @endforeach
+                {{-- Education --}}
+                <div class="bg-gray-50 shadow rounded-xl p-5">
+                    <h2 class="text-xl font-semibold text-green-700 mb-3">Education</h2>
+                    <p class="text-gray-700 whitespace-pre-line">{{ $education }}</p>
+                </div>
+            </div>
+
+            <div class="col-span-2 space-y-6">
+                {{-- Profile --}}
+                <div class="bg-gray-50 shadow rounded-xl p-5">
+                    <h2 class="text-xl font-semibold text-green-700 mb-3">Profile</h2>
+                    <p class="text-gray-700">{{ $profile }}</p>
+                </div>
+
+                {{-- Skills --}}
+                <div class="bg-gray-50 shadow rounded-xl p-5">
+                    <h2 class="text-xl font-semibold text-green-700 mb-3">Skills</h2>
+                    <ul class="grid grid-cols-2 gap-2 text-gray-700">
+                        @foreach($skills as $skill)
+                            <li>{{ $skill }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
+
+        {{-- Experience --}}
+        <div class="px-8 pb-8">
+            <h2 class="text-2xl font-bold text-green-700 mb-6">Work Experience</h2>
+            <div class="space-y-6">
+                @foreach($experience as $exp)
+                    <button class="collapsible">{{ $exp['company'] }} <span class="text-sm text-gray-500 float-right">{{ $exp['date'] }}</span></button>
+                    <div class="collapsible-content">
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            @foreach($exp['tasks'] as $task)
+                                <li>{{ $task }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // Collapsible sections
-        document.querySelectorAll('.collapsible').forEach(button => {
-            button.addEventListener('click', () => {
-                const content = button.nextElementSibling;
-                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        // Collapsible functionality
+        const collapsibles = document.querySelectorAll(".collapsible");
+        collapsibles.forEach(btn => {
+            btn.addEventListener("click", function() {
+                this.classList.toggle("active");
+                const content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
             });
         });
+
+        // Prevent going back to resume after logout
+        window.history.pushState(null, "", window.location.href);
+        window.onpopstate = function () {
+            window.location.replace("{{ route('login') }}");
+        };
+
+        // Popup fade out
+        document.addEventListener("DOMContentLoaded", function () {
+            let popup = document.getElementById("popup-message");
+            if (popup) {
+                setTimeout(() => {
+                    popup.style.opacity = "0";
+                    setTimeout(() => popup.remove(), 500);
+                }, 3000);
+            }
+        });
+
+        // Copy phone number
+        function copyPhone(number) {
+            navigator.clipboard.writeText(number).then(() => {
+                alert("Phone number copied: " + number);
+            });
+        }
     </script>
 </body>
 </html>
-
-<script>
-    // Prevent going back to resume after logout
-    window.history.pushState(null, "", window.location.href);
-    window.onpopstate = function () {
-        window.location.replace("{{ route('login') }}");
-    };
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let popup = document.getElementById("popup-message");
-        if (popup) {
-            setTimeout(() => {
-                popup.style.opacity = "0";
-                setTimeout(() => popup.remove(), 500); // remove after fade
-            }, 3000); // 3 seconds
-        }
-    });
-</script>
